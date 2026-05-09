@@ -5,6 +5,7 @@ import { TaskStatus } from './task.model';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
+import { NotFoundException } from '@nestjs/common';
 import type { Task } from './task.model';
 
 @Injectable()
@@ -53,29 +54,37 @@ class TasksService {
     return task;
   }
 
-  getTaskById(id: string): Task | undefined {
-    return this.tasks.find((task) => task.id === id);
+  getTaskById(id: string): Task {
+    const task = this.tasks.find((task) => task.id === id);
+
+    if (task) {
+      return task;
+    }
+
+    throw new NotFoundException(`Task with ID "${id}" not found`);
   }
 
   deleteTaskById(id: string): void {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+    // It already throws an error if the task is not found per method signature
+    const task = this.getTaskById(id);
+
+    if (task) {
+      this.tasks = this.tasks.filter((task) => task.id !== id);
+    }
+
     return;
   }
 
-  updateTaskStatus(
-    id: string,
-    updateTaskStatusDto: UpdateTaskStatusDto,
-  ): Task | undefined {
+  updateTaskStatus(id: string, updateTaskStatusDto: UpdateTaskStatusDto): Task {
     const task = this.getTaskById(id);
 
     const { status } = updateTaskStatusDto;
 
     if (task) {
       task.status = status;
-      return task;
     }
 
-    return undefined;
+    return task;
   }
 }
 

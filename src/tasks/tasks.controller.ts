@@ -36,7 +36,7 @@ export class TasksController {
 
   // Param is used to extract the id from the request path
   @Get(':id')
-  getTaskById(@Param('id') id: string): Task | undefined {
+  getTaskById(@Param('id') id: string): Task {
     return this.tasksService.getTaskById(id);
   }
 
@@ -51,7 +51,7 @@ export class TasksController {
     @Param('id') id: string,
     // Extract the status field from the body of the request
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
-  ): Task | undefined {
+  ): Task {
     return this.tasksService.updateTaskStatus(id, updateTaskStatusDto);
   }
 }

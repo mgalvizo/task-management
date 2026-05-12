@@ -301,3 +301,77 @@ bootstrap();
 - Promote usage of DTOs which is a very good practice.
 
 Extensive [list](https://github.com/typestack/class-validator#validation-decorators) of validation decorators available in `class-validator`.
+
+## Docker
+
+Create container:
+
+```bash
+docker run --name postgres-nest -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+```
+
+| Part                            | Meaning                                                               |
+| ------------------------------- | --------------------------------------------------------------------- |
+| `docker run`                    | Create and start a new container                                      |
+| `--name postgres-nest`          | Assign the container the name `postgres-nest`                         |
+| `-p 5432:5432`                  | Map port `5432` from your machine to port `5432` inside the container |
+| `-e POSTGRES_PASSWORD=postgres` | Set an environment variable inside the container                      |
+| `-d`                            | Run in detached mode (background)                                     |
+| `postgres`                      | The Docker image to use from DockerHub                                |
+
+List containers:
+
+```bash
+docker container ls
+```
+
+Start created container
+
+```bash
+docker start postgres-nest
+```
+
+Stop the container
+
+```bash
+docker container stop postgres-nest
+```
+
+Delete container
+
+```bash
+docker container rm postgres-nest
+```
+
+## Object Relational Mapping (ORM)
+
+Object-Relational Mapping (ORM) is a technique that lets you query and manipulate data from a database, using an object-oriented paradigm.
+
+There are many ORM libraries that allow developers to communicate to the database using their preferred programming language rather than sending plain queries directly.
+
+## Pros and Cons of using an ORM Library
+
+| Pros                                                                                           | Cons                                                                                                                                |
+| ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Writing the data model in one place &mdash; easier to maintain. Less Repetition.               | You have to learn it, ORM libraries are not always simple.                                                                          |
+| Lots of things done automatically &mdash; database handling, data types, relations, etc.       | Performance is alright, but it's easy to neglect.                                                                                   |
+| No need to write SQL syntax (easy to learn, hard to master). Using your natural way of coding. | Makes it easy to forget (or never learn) what's happening behind the scenes, which can lead to a variety of maintainability issues. |
+| Database abstraction &mdash; you can change the database type whenever you wish.               |                                                                                                                                     |
+| Leverages OOP, therefore things like inheritance are easy to achieve.                          |                                                                                                                                     |
+
+## TypeORM
+
+TypeORM is an ORM library that can run in Node.js and be used with TypeScript (or JavaScript).
+
+Helps us define and manage entities, repositories, columns, relations, replication, indices, queries, logging and so much more.
+
+### Example
+
+Retrieve all tasks owned by "Ashley" and are of status "Done".
+
+```ts
+const tasks = await Tasks.find({ status: 'DONE', user: 'Ashley' });
+```
+
+- [TypeORM docs](https://typeorm.io/docs/getting-started).
+- [Repository API](https://typeorm.io/docs/working-with-entity-manager/repository-api#repository-api)

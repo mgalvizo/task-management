@@ -1,6 +1,6 @@
 import { IsEnum } from 'class-validator';
 
-import { TaskStatus } from '../task.model';
+import { TaskStatus } from '../task-status.enum';
 
 class UpdateTaskStatusDto {
   // Provide the enumeration to validate the status

@@ -397,3 +397,19 @@ JWT should ideally be short-lived.
 - **Header**: contains metadata about the token (type, hashing algorithm).
 - **Payload**: contains claims (statements about an entity, e.g. a user's additional data).
 - **Signature**: is the result of the encoded header, the encoded payload, signed against a secret.
+
+## Logging
+
+- **Log**: General purpose logging of important information.
+- **Warning**: Unhandled issue that is **NOT** fatal or destructive.
+- **Error**: Unhandled issue that is fatal or destructive.
+- **Debug**: Useful information that can help us debug the logic in case of an error/warning. Intended for developers.
+- **Verbose**: Information providing insights about the behavior of the application. Intended for operators (for example, support). Usually "too much information".
+
+## Log Levels
+
+|             | Log     | Error   | Warning  | Debug    | Verbose  |
+| ----------- | ------- | ------- | -------- | -------- | -------- |
+| Development | &#9989; | &#9989; | &#9989;  | &#9989;  | &#9989;  |
+| Staging     | &#9989; | &#9989; | &#9989;  | &#x274c; | &#x274c; |
+| Production  | &#9989; | &#9989; | &#x274c; | &#x274c; | &#x274c; |

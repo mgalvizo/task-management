@@ -1,5 +1,5 @@
 // BAD PRACTICE: DO NOT USE REPOSITORIES ANYMORE. USE THE SERVICE LAYER INSTEAD.
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 
@@ -8,10 +8,14 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatus } from './task-status.enum';
 import { User } from 'src/auth/user.entity';
+import { Logger } from '@nestjs/common';
 
 // Custom repository for the Task entity (wrapper)
 @Injectable()
 class TasksRepository {
+  private readonly logger = new Logger(TasksRepository.name, {
+    timestamp: true,
+  });
   constructor(
     // Inject the Task repository to be used in the service
     @InjectRepository(Task) private tasksRepository: Repository<Task>,
@@ -41,9 +45,18 @@ class TasksRepository {
       );
     }
 
-    const tasks = await query.getMany();
+    try {
+      const tasks = await query.getMany();
 
-    return tasks;
+      return tasks;
+    } catch (error) {
+      this.logger.error(
+        `Error fetching tasks for user ${user.username}, filters: ${JSON.stringify(filterDto)}`,
+        error.stack,
+      );
+      // BAD practice do not thow exceptions in the repository layer. Use the service layer to handle exceptions.
+      throw new InternalServerErrorException();
+    }
   }
 
   async create(createTaskDto: CreateTaskDto, user: User): Promise<Task> {

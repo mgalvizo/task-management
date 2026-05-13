@@ -1,5 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { TaskStatus } from './task-status.enum';
+
+import { User } from 'src/auth/user.entity';
 
 @Entity()
 class Task {
@@ -15,6 +18,14 @@ class Task {
 
   @Column()
   status: TaskStatus;
+
+  // Many to one relationship
+  // Many tasks can belong to one user
+  // eager: false means that the tasks will not be loaded automatically when the user is loaded
+  @ManyToOne((_type) => User, (user) => user.tasks, { eager: false })
+  // toPlainOnly: true means that the user will not be included in the plain object when the task is serialized to JSON
+  @Exclude({ toPlainOnly: true })
+  user: User;
 }
 
 export { Task };

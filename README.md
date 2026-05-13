@@ -375,3 +375,25 @@ const tasks = await Tasks.find({ status: 'DONE', user: 'Ashley' });
 
 - [TypeORM docs](https://typeorm.io/docs/getting-started).
 - [Repository API](https://typeorm.io/docs/working-with-entity-manager/repository-api#repository-api)
+
+## JSON Web Tokens (JWT)
+
+Open source industry standard (RFC-7519).
+
+Usable for authorization or secure exchange of information between parties.
+
+Verify that the sender is who it/he/she claims to be.
+
+Signed by the issuer, using a secret keypair (HMAC algorithm, RSA or ECDSA).
+
+JSON Web Tokens can be decoded by anyone. They should not contain sensitive information such as passwords.
+
+It is useful for front-end applications to use these tokens to toggle features conditionally. For example, if a user is an administrator, we could show or hide a certain button based on the claims in the token.
+
+JWT should ideally be short-lived.
+
+## JWT Structure
+
+- **Header**: contains metadata about the token (type, hashing algorithm).
+- **Payload**: contains claims (statements about an entity, e.g. a user's additional data).
+- **Signature**: is the result of the encoded header, the encoded payload, signed against a secret.

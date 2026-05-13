@@ -10,8 +10,8 @@ import {
   UseGuards,
   Logger,
 } from '@nestjs/common';
-
 import { AuthGuard } from '@nestjs/passport';
+
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
